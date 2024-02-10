@@ -1,11 +1,14 @@
 package fa;
 
+import fa.dfa.DFA;
+
 import java.util.HashMap;
 import java.util.Map;
 
 public class DFAState extends State {
     private boolean isFinal;
-    private Map<Character, DFAState> transitions; // Transition function for this state
+    private boolean isStart;
+    private Map<String, DFAState> transitions; // Transition function for this state
 
     /**
      * Constructor for a DFAState with a specified name.
@@ -15,6 +18,7 @@ public class DFAState extends State {
      */
     public DFAState(String name) {
         super(name); // Call the superclass constructor to set the name
+        this.isStart = false;
         this.isFinal = false; // By default, states are not accepting states
         this.transitions = new HashMap<>(); // Initialize the transition function
     }
@@ -27,5 +31,13 @@ public class DFAState extends State {
      */
     public DFAState getNextState(char symbol) {
         return transitions.get(symbol);
+    }
+
+    public void setNextState(String name, DFAState state) {
+        transitions.put(name, state);
+    }
+
+    public void makeFinalState() {
+        this.isFinal = true;
     }
 }
