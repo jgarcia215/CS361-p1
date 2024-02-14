@@ -8,7 +8,7 @@ import java.util.Map;
 public class DFAState extends State {
     private boolean isFinal;
     private boolean isStart;
-    private Map<String, DFAState> transitions; // Transition function for this state
+    private Map<Character, DFAState> transitions; // Transition function for this state
 
     /**
      * Constructor for a DFAState with a specified name.
@@ -33,7 +33,7 @@ public class DFAState extends State {
         return transitions.get(symbol);
     }
 
-    public void setNextState(String name, DFAState state) {
+    public void createNewTransition(char name, DFAState state) {
         transitions.put(name, state);
     }
     //test
