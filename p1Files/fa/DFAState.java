@@ -36,7 +36,7 @@ public class DFAState extends State {
     public void setNextState(String name, DFAState state) {
         transitions.put(name, state);
     }
-
+    //test
     public void makeFinalState() {
         this.isFinal = true;
     }
