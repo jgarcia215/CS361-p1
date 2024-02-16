@@ -12,10 +12,10 @@ public class DFA implements DFAInterface {
     private Set<Character> sigma;
 
     public DFA() {
-        dfa = new HashMap<>();
+        dfa = new LinkedHashMap<>();
         finalStates = new HashMap<>();
         initialState = null;
-        sigma = new HashSet<>();
+        sigma = new LinkedHashSet<>();
     }
 
     @Override
@@ -156,34 +156,6 @@ public class DFA implements DFAInterface {
         }
 
         return newDFA;
-
-
-
-//        DFA copy = new DFA();
-//        for(State originalDFA: dfa.values()){
-//            DFAState newState = new DFAState(originalDFA.getName());
-//            if(isStart(newState.getName())){
-//                copy.initialState = newState;
-//            }
-//            copy.addState(newState.getName());
-//        }
-//
-//        copy.sigma.addAll(sigma);
-//        State temp = null;
-//        for(State origionalState: dfa.values()){
-//            for(Character origionalSigma: sigma){
-//                if(origionalSigma.equals(symb1)){
-//                    temp = dfa.getOrDefault(origionalState, new HashMap<>()).get(origionalSigma);
-//                    copy.addTransition(origionalState.getName(), temp.getName(), symb2);
-//                }
-//                else if(origionalSigma.equals(symb2)){
-//                    temp = dfa.getOrDefault(origionalState, new HashMap<>()).get(origionalSigma);
-//                    copy.addTransition(origionalState.getName(), temp.getName(), symb1);
-//                }
-//            }
-//        }
-//        dfa.putAll(copy.dfa);
-//        return copy;
     }
 
 
@@ -203,13 +175,13 @@ public class DFA implements DFAInterface {
         StringBuilder builder = new StringBuilder();
 
         // States (Q)
-        builder.append("Q = { ");
-        StringJoiner statesJoiner = new StringJoiner(" ");
+        builder.append("Q = {");
+        //StringJoiner statesJoiner = new StringJoiner();
         for (String stateName : dfa.keySet()) {
-            statesJoiner.add(stateName);
+           builder.append(stateName);
         }
-        builder.append(statesJoiner.toString());
-        builder.append(" }\n");
+        //builder.append(statesJoiner.toString());
+        builder.append("}\n");
 
         // Alphabet (Sigma)
         builder.append("Sigma = { ");
