@@ -1,15 +1,22 @@
+/**
+ * Represent a Definite Finite Automata. Includes methods
+ * that creates a state, adds a transition, declares final/start state,
+ * swap the states, etc.
+ *
+ * @author Josh Miller and Jack Garcia
+ */
+
+
 package fa.dfa;
-
 import fa.State;
-
 import java.util.*;
 
 public class DFA implements DFAInterface {
 
-    private Map<String, DFAState> dfa;
-    private DFAState initialState;
-    private Map<String, DFAState> finalStates;
-    private Set<Character> sigma;
+    private Map<String, DFAState> dfa;  //Map that represents our DFA
+    private DFAState initialState;  //Initial State. There can only be one.
+    private Map<String, DFAState> finalStates;  //Map with our final states.
+    private Set<Character> sigma;   //Represents our alphabet
 
     /**
      * Constructor for new DFA
@@ -23,6 +30,7 @@ public class DFA implements DFAInterface {
 
     /**
      * Adds a state to the state machine
+     *
      * @param name is the label of the state
      * @return boolean based on success of the addition
      */
@@ -38,6 +46,7 @@ public class DFA implements DFAInterface {
     }
 
     /**
+     * Sets a state as a final state.
      *
      * @param name is the label of the state
      * @return true unless the state was not set
@@ -58,6 +67,7 @@ public class DFA implements DFAInterface {
 
     /**
      * Set the start state
+     *
      * @param name is the label of the start state
      * @return true if the start state was set successfully
      */
@@ -74,6 +84,7 @@ public class DFA implements DFAInterface {
 
     /**
      * Adds a symbol to the alphabet
+     *
      * @param symbol to add to the alphabet set
      */
     @Override
@@ -83,6 +94,7 @@ public class DFA implements DFAInterface {
 
     /**
      * Function determining if a state is accepted or not
+     *
      * @param s
      * @param state
      * @return a boolean based on the acceptance of a state
@@ -102,6 +114,7 @@ public class DFA implements DFAInterface {
 
     /**
      * checks if the DFA will accept the input string
+     *
      * @param s - the input string
      * @return
      */
@@ -113,6 +126,7 @@ public class DFA implements DFAInterface {
 
     /**
      * returns the alphabet character
+     *
      * @return the character
      */
     @Override
@@ -122,6 +136,7 @@ public class DFA implements DFAInterface {
 
     /**
      * gets the name of the state
+     *
      * @param name of a state
      * @return the name of the state
      */
@@ -137,6 +152,7 @@ public class DFA implements DFAInterface {
 
     /**
      * Checks if the state is the final state
+     *
      * @param name the name of the state
      * @return true or false
      */
@@ -147,6 +163,7 @@ public class DFA implements DFAInterface {
 
     /**
      * Checks if the state is the start state or not
+     *
      * @param name the name of the state
      * @return true or false
      */
@@ -157,6 +174,7 @@ public class DFA implements DFAInterface {
 
     /**
      * Adds a transition to the DFA
+     *
      * @param fromState is the label of the state where the transition starts
      * @param toState is the label of the state where the transition ends
      * @param onSymb is the symbol from the DFA's alphabet.
@@ -178,6 +196,7 @@ public class DFA implements DFAInterface {
 
     /**
      * Swaps two states
+     *
      * @param symb1
      * @param symb2
      * @return a copy of the dfa with the switched states
@@ -186,7 +205,7 @@ public class DFA implements DFAInterface {
     public DFA swap(char symb1, char symb2) {
         DFA newDFA = new DFA();
 
-        // Copy the alphabet and states, setting up the initial and final states as necessary
+        //Copy the alphabet and states, setting up the initial and final states as necessary
         for (String stateName : this.dfa.keySet()) {
             newDFA.addState(stateName);
             if (this.finalStates.containsKey(stateName)) {
@@ -198,7 +217,7 @@ public class DFA implements DFAInterface {
         }
         newDFA.sigma = new HashSet<>(this.sigma);
 
-        // Iterate through the existing DFA to copy and swap transitions
+        //Iterate through the existing DFA to copy and swap transitions
         for (Map.Entry<String, DFAState> entry : this.dfa.entrySet()) {
             String fromStateName = entry.getKey();
             DFAState fromState = entry.getValue();
@@ -224,12 +243,10 @@ public class DFA implements DFAInterface {
 
 
 
-
-
     /**
-     * toString method. Uses an iterator to parse through
-     * each set/map. Uses a string builder as well to append.
-     * Matches the string example in DFAInterface.
+     * toString method. Parses through the different
+     * sets and maps and populates the string
+     * to the specified string requirement.
      *
      *
      * @return a string
@@ -238,14 +255,14 @@ public class DFA implements DFAInterface {
 
         StringBuilder builder = new StringBuilder();
 
-        // States (Q)
+        //States (Q)
         builder.append("Q={");
         for (String stateName : dfa.keySet()) {
             builder.append(stateName);
         }
         builder.append("}\n");
 
-        // Alphabet (Sigma)
+        //Alphabet (Sigma)
         builder.append("Sigma = {");
         for (char symbol : sigma) {
             builder.append(symbol).append(" ");
@@ -253,7 +270,7 @@ public class DFA implements DFAInterface {
         builder.deleteCharAt(builder.length() - 1);     //Needed to remove extra whitespace.
         builder.append("}\n");
 
-        // Transition Function (delta)
+        //Delta columns
         builder.append("delta =\n\t");
         boolean first = true;
         for (char symbol : sigma) {
@@ -266,7 +283,7 @@ public class DFA implements DFAInterface {
         }
         builder.append("\n");
 
-        // Table rows for the transition function
+        //Delta rows
         for (String stateName : dfa.keySet()) {
             builder.append(stateName);
             for (char symbol : sigma) {
@@ -277,7 +294,7 @@ public class DFA implements DFAInterface {
             builder.append("\n");
         }
 
-        // Initial State (q0)
+        //Initial State
         builder.append("q0 = ");
         if (initialState != null) {
             builder.append(initialState.getName());
@@ -297,15 +314,4 @@ public class DFA implements DFAInterface {
 
         return builder.toString();
     }
-        /**
-         * Q = { a b }
-         * Sigma = { 0 1 }
-         * delta =
-         *		0	1
-         *	a	a	b
-         *	b	a	b
-         * q0 = a
-         * F = { b }
-         */
-
-    }
+}

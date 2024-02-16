@@ -1,7 +1,14 @@
+/**
+ * Represent a state for a DFA. Is an abstraction
+ * of a finite automata state.
+ *
+ * @author Josh Miller and Jack Garcia
+ */
+
+
 package fa.dfa;
 
 import fa.State;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,11 +38,22 @@ public class DFAState extends State {
         return transitions.get(symbol);
     }
 
+    /**
+     * Creates a new transition and adds it to
+     * the map of transitions so the state can
+     * track it.
+     *
+     * @param name
+     * @param state
+     */
     public void createNewTransition(char name, DFAState state) {
         transitions.put(name, state);
     }
 
-    //test
+    /**
+     * Makes a state a final state.
+     *
+     */
     public void makeFinalState() {
         this.isFinal = true;
     }
