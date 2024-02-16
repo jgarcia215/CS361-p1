@@ -2,18 +2,17 @@ package fa.dfa;
 
 import fa.DFAState;
 import fa.State;
-
 import java.util.*;
 
 public class DFA implements DFAInterface {
 
-    private Map<String, DFAState> dfa;
+    private LinkedHashMap<String, DFAState> dfa;
     private DFAState initialState;
     private Map<String, DFAState> finalStates;
     private Set<Character> sigma;
 
     public DFA() {
-        dfa = new HashMap<>();
+        dfa = new LinkedHashMap<>();
         finalStates = new HashMap<>();
         initialState = null;
         sigma = new HashSet<>();
@@ -62,7 +61,19 @@ public class DFA implements DFAInterface {
 
     @Override
     public boolean accepts(String s) {
-        return false;
+        DFAState state = dfa.get(s);
+
+        if (state == null) {
+            return false;
+        }
+        else if (s.length() == 1) {
+            if (finalStates.containsValue(state.getTransistion(s.charAt(0)))) {
+                return true;
+            }
+            return false;
+        }
+
+        return accepts(s.substring(1));
     }
 
     @Override
@@ -107,6 +118,35 @@ public class DFA implements DFAInterface {
 
     @Override
     public DFA swap(char symb1, char symb2) {
+        DFA dfaCopy = new DFA();
+
+        for (DFAState state: this.dfa.values()) {
+            DFAState newState = new DFAState(state.getName());
+
+            if (isStart(newState.getName())) {
+                dfaCopy.initialState = newState;
+            }
+            else if (isFinal(newState.getName())) {
+                dfaCopy.finalStates.put(newState.getName(), newState);
+            }
+
+            dfaCopy.addState(newState.getName());
+        }
+
+        dfaCopy.sigma.addAll(sigma);
+        State tempState = null;
+
+        for (DFAState state: dfa.values()) {
+            for (Character originalAlphabet: sigma) {
+
+                if (originalAlphabet.equals(symb1)) {
+                    //
+                }
+
+            }
+
+        }
+
         return null;
     }
 
@@ -133,7 +173,6 @@ public class DFA implements DFAInterface {
          * q0 = a
          * F = { b }
          */
-
         StringBuilder returnStr = new StringBuilder();
         Iterator itr;
 
@@ -172,6 +211,7 @@ public class DFA implements DFAInterface {
         }
 
 
+        returnStr.append("\n");
         Iterator stateIterator;     //Creating row values on table now. This is where we need to print out each transition for the states. ROW BY ROW.
         itr = dfa.keySet().iterator();
         DFAState state;
