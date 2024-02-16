@@ -1,4 +1,6 @@
-package fa;
+package fa.dfa;
+
+import fa.State;
 
 import java.util.HashMap;
 import java.util.Map;
