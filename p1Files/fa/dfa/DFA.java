@@ -186,7 +186,7 @@ public class DFA implements DFAInterface {
         for (char symbol : sigma) {
             builder.append(symbol).append(" ");
         }
-        builder.deleteCharAt(builder.length() - 1);
+        builder.deleteCharAt(builder.length() - 1);     //Needed to remove extra whitespace.
         builder.append("}\n");
 
         // Transition Function (delta)
@@ -226,7 +226,9 @@ public class DFA implements DFAInterface {
         builder.append("F = {");
         for (String stateName : finalStates.keySet()) {
             builder.append(stateName);
+            builder.append(" ");
         }
+        builder.deleteCharAt(builder.length() - 1);     //Needed to remove extra whitespace.
         builder.append("}\n");
 
         return builder.toString();
