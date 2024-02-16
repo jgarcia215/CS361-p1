@@ -13,7 +13,7 @@ public class DFA implements DFAInterface {
 
     public DFA() {
         dfa = new LinkedHashMap<>();
-        finalStates = new HashMap<>();
+        finalStates = new LinkedHashMap<>();
         initialState = null;
         sigma = new LinkedHashSet<>();
     }
@@ -175,33 +175,36 @@ public class DFA implements DFAInterface {
         StringBuilder builder = new StringBuilder();
 
         // States (Q)
-        builder.append("Q = {");
-        //StringJoiner statesJoiner = new StringJoiner();
+        builder.append("Q={");
         for (String stateName : dfa.keySet()) {
-           builder.append(stateName);
+            builder.append(stateName);
         }
-        //builder.append(statesJoiner.toString());
         builder.append("}\n");
 
         // Alphabet (Sigma)
-        builder.append("Sigma = { ");
-        StringJoiner sigmaJoiner = new StringJoiner(" ");
+        builder.append("Sigma = {");
         for (char symbol : sigma) {
-            sigmaJoiner.add(Character.toString(symbol));
+            builder.append(symbol).append(" ");
         }
-        builder.append(sigmaJoiner.toString());
-        builder.append(" }\n");
+        builder.deleteCharAt(builder.length() - 1);
+        builder.append("}\n");
 
         // Transition Function (delta)
         builder.append("delta =\n\t");
-        StringJoiner headerJoiner = new StringJoiner("\t");
+        boolean first = true;
         for (char symbol : sigma) {
-            headerJoiner.add(Character.toString(symbol));
+            if (first) {
+                first = false;
+            } else {
+                builder.append("\t");
+            }
+            builder.append(symbol);
         }
-        builder.append("\t").append(headerJoiner.toString()).append("\n");
+        builder.append("\n");
 
+        // Table rows for the transition function
         for (String stateName : dfa.keySet()) {
-            builder.append(stateName).append("\t");
+            builder.append(stateName);
             for (char symbol : sigma) {
                 DFAState toState = dfa.get(stateName).getTransistion(symbol);
                 String toStateName = toState != null ? toState.getName() : "-";
@@ -211,109 +214,21 @@ public class DFA implements DFAInterface {
         }
 
         // Initial State (q0)
+        builder.append("q0 = ");
         if (initialState != null) {
-            builder.append("q0 = ").append(initialState.getName()).append("\n");
+            builder.append(initialState.getName());
         } else {
-            builder.append("q0 = {}\n");
+            builder.append("{}");
         }
+        builder.append("\n");
 
         // Final States (F)
-        builder.append("F = { ");
-        StringJoiner finalStatesJoiner = new StringJoiner(" ");
+        builder.append("F = {");
         for (String stateName : finalStates.keySet()) {
-            finalStatesJoiner.add(stateName);
+            builder.append(stateName);
         }
-        builder.append(finalStatesJoiner.toString());
-        builder.append(" }\n");
+        builder.append("}\n");
 
         return builder.toString();
-        /**
-         * Q = { a b }
-         * Sigma = { 0 1 }
-         * delta =
-         *		0	1
-         *	a	a	b
-         *	b	a	b
-         * q0 = a
-         * F = { b }
-         */
-
-//        StringBuilder returnStr = new StringBuilder();
-//        Iterator itr;
-//
-//        //States
-//        returnStr.append("Q = { ");
-//        itr = dfa.keySet().iterator();
-//        while (itr.hasNext()) {
-//            returnStr.append(itr.next());
-//        }
-//        returnStr.append(" }\n");   //End States
-//
-//
-//        //Sigma
-//        returnStr.append("Sigma = { ");
-//        itr = sigma.iterator();
-//        while (itr.hasNext()) {
-//            returnStr.append(itr.next());
-//        }
-//        returnStr.append(" }\n");   //End sigma
-//
-//
-//
-//
-//
-//
-//
-//        //////////////////////////////////////////////////////
-//        //////////////// NEED TO FINISH DELTA ////////////////
-//
-//
-//        //Delta
-//        returnStr.append("delta = \n\t\t");     //Add column values to table. Repeats the above steps since sigma is
-//        itr = sigma.iterator();                 //the same as the column values.
-//        while (itr.hasNext()) {
-//            returnStr.append(itr.next()).append("\t");
-//        }
-//
-//
-//        Iterator stateIterator;     //Creating row values on table now. This is where we need to print out each transition for the states. ROW BY ROW.
-//        itr = dfa.keySet().iterator();
-//        DFAState state;
-//
-//        while (itr.hasNext()) {
-//            //Add row value. For example: "a"
-//            //returnStr.append(tempState + "\t");
-//
-//            // Add transition values \\
-//            //tempState.getNextState();
-//        }
-//
-//
-//
-//        //////////////// NEED TO FINISH DELTA ////////////////
-//        //////////////////////////////////////////////////////
-//
-//
-//
-//
-//
-//
-//
-//        //Initial State
-//        returnStr.append("q0 = " + initialState + '\n');
-//
-//
-//        //Final States
-//        itr = finalStates.keySet().iterator();
-//        returnStr.append("F = { ");
-//
-//        while (itr.hasNext()) {
-//            returnStr.append(itr.next());
-//        }
-//        returnStr.append(" }\n");   //End final states
-//
-//
-//        //Return the string builder.
-//        return returnStr.toString();
     }
 }
