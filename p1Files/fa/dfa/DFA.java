@@ -121,7 +121,31 @@ public class DFA implements DFAInterface {
 
     @Override
     public DFA swap(char symb1, char symb2) {
-        return null;
+        DFA copy = new DFA();
+        for(State originalDFA: dfa.values()){
+            DFAState newState = new DFAState(originalDFA.getName());
+            if(isStart(newState.getName())){
+                copy.initialState = newState;
+            }
+            copy.addState(newState.getName());
+        }
+
+        copy.sigma.addAll(sigma);
+        State temp = null;
+        for(State origionalState: dfa.values()){
+            for(Character origionalSigma: sigma){
+                if(origionalSigma.equals(symb1)){
+                    temp = dfa.getOrDefault(origionalState, new HashMap<>()).get(origionalSigma);
+                    copy.addTransition(origionalState.getName(), temp.getName(), symb2);
+                }
+                else if(origionalSigma.equals(symb2)){
+                    temp = dfa.getOrDefault(origionalState, new HashMap<>()).get(origionalSigma);
+                    copy.addTransition(origionalState.getName(), temp.getName(), symb1);
+                }
+            }
+        }
+        dfa.putAll(copy.dfa);
+        return copy;
     }
 
 
