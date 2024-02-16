@@ -11,6 +11,9 @@ public class DFA implements DFAInterface {
     private Map<String, DFAState> finalStates;
     private Set<Character> sigma;
 
+    /**
+     * Constructor for new DFA
+     */
     public DFA() {
         dfa = new LinkedHashMap<>();
         finalStates = new LinkedHashMap<>();
@@ -18,6 +21,11 @@ public class DFA implements DFAInterface {
         sigma = new LinkedHashSet<>();
     }
 
+    /**
+     * Adds a state to the state machine
+     * @param name is the label of the state
+     * @return boolean based on success of the addition
+     */
     @Override
     public boolean addState(String name) {
 
@@ -29,6 +37,11 @@ public class DFA implements DFAInterface {
         return false;
     }
 
+    /**
+     *
+     * @param name is the label of the state
+     * @return true unless the state was not set
+     */
     @Override
     public boolean setFinal(String name) {
         DFAState finalState = null;
@@ -43,6 +56,11 @@ public class DFA implements DFAInterface {
         return false;
     }
 
+    /**
+     * Set the start state
+     * @param name is the label of the start state
+     * @return true if the start state was set successfully
+     */
     @Override
     public boolean setStart(String name) {
 
@@ -54,11 +72,21 @@ public class DFA implements DFAInterface {
         return false;
     }
 
+    /**
+     * Adds a symbol to the alphabet
+     * @param symbol to add to the alphabet set
+     */
     @Override
     public void addSigma(char symbol) {
         sigma.add(symbol);
     }
 
+    /**
+     * Function determining if a state is accepted or not
+     * @param s
+     * @param state
+     * @return a boolean based on the acceptance of a state
+     */
     public boolean accepts(String s, DFAState state) {
         if(state == null)
         {
@@ -72,17 +100,31 @@ public class DFA implements DFAInterface {
         }
     }
 
+    /**
+     * checks if the DFA will accept the input string
+     * @param s - the input string
+     * @return
+     */
     @Override
     public boolean accepts(String s){
         if(s.isEmpty() || initialState == null) return false;
         return accepts(s, initialState);
     }
 
+    /**
+     * returns the alphabet character
+     * @return the character
+     */
     @Override
     public Set<Character> getSigma() {
         return sigma;
     }
 
+    /**
+     * gets the name of the state
+     * @param name of a state
+     * @return the name of the state
+     */
     @Override
     public State getState(String name) {
 
@@ -93,21 +135,37 @@ public class DFA implements DFAInterface {
         return null;
     }
 
+    /**
+     * Checks if the state is the final state
+     * @param name the name of the state
+     * @return true or false
+     */
     @Override
     public boolean isFinal(String name) {
         return finalStates.containsKey(name);
     }
 
+    /**
+     * Checks if the state is the start state or not
+     * @param name the name of the state
+     * @return true or false
+     */
     @Override
     public boolean isStart(String name) {
         return initialState.getName().equals(name);
     }
 
+    /**
+     * Adds a transition to the DFA
+     * @param fromState is the label of the state where the transition starts
+     * @param toState is the label of the state where the transition ends
+     * @param onSymb is the symbol from the DFA's alphabet.
+     * @return true if the transition was added and false otherwise
+     */
     @Override
     public boolean addTransition(String fromState, String toState, char onSymb) {
 
         if (dfa.containsKey(fromState) && dfa.containsKey(toState) && sigma.contains(onSymb)) {
-            //Need more significant names lmao
             DFAState from = dfa.get(fromState);
             DFAState to = dfa.get(toState);
 
@@ -118,6 +176,12 @@ public class DFA implements DFAInterface {
         return false;
     }
 
+    /**
+     * Swaps two states
+     * @param symb1
+     * @param symb2
+     * @return a copy of the dfa with the switched states
+     */
     @Override
     public DFA swap(char symb1, char symb2) {
         DFA newDFA = new DFA();
@@ -168,7 +232,7 @@ public class DFA implements DFAInterface {
      * Matches the string example in DFAInterface.
      *
      *
-     * @return
+     * @return a string
      */
     public String toString() {
 
@@ -233,4 +297,15 @@ public class DFA implements DFAInterface {
 
         return builder.toString();
     }
-}
+        /**
+         * Q = { a b }
+         * Sigma = { 0 1 }
+         * delta =
+         *		0	1
+         *	a	a	b
+         *	b	a	b
+         * q0 = a
+         * F = { b }
+         */
+
+    }
