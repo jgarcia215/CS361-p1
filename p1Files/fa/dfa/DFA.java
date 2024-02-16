@@ -46,7 +46,7 @@ public class DFA implements DFAInterface {
     @Override
     public boolean setStart(String name) {
 
-        if (initialState == null && dfa.containsKey(name)) {
+        if (dfa.containsKey(name)) {
             initialState = dfa.get(name);
             return true;
         }
