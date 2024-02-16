@@ -36,7 +36,7 @@ public class DFA implements DFAInterface {
         if (dfa.containsKey(name)) {
             finalState = dfa.get(name);
             finalState.makeFinalState();
-            dfa.put(name, finalState);
+            finalStates.put(name, finalState);
             return true;
         }
 
