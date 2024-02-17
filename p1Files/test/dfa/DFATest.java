@@ -405,5 +405,67 @@ public void test3_6() {
 	
 	System.out.println("dfa3Swap accept pass");
 }
+
+	private DFA dfa4() {
+		DFA dfa = new DFA();
+		dfa.addSigma('a');
+		dfa.addSigma('b');
+
+		assertTrue(dfa.addState("s1"));
+		assertTrue(dfa.addState("s2"));
+		assertTrue(dfa.addState("s3"));
+
+		assertTrue(dfa.setStart("s1"));
+		assertTrue(dfa.setFinal("s3"));
+
+		assertFalse(dfa.addState("s1"));
+		assertFalse(dfa.setStart("s4"));
+		assertFalse(dfa.setFinal("s4"));
+
+		assertTrue(dfa.addTransition("s1", "s2", 'a'));
+		assertTrue(dfa.addTransition("s2", "s3", 'b'));
+		assertTrue(dfa.addTransition("s3", "s1", 'a'));
+		assertTrue(dfa.addTransition("s2", "s2", 'a'));
+		assertTrue(dfa.addTransition("s3", "s3", 'b'));
+
+		assertFalse(dfa.addTransition("s4", "s2", 'a')); // Invalid state "s4"
+		assertFalse(dfa.addTransition("s1", "s3", 'c')); // Invalid symbol 'c'
+		assertFalse(dfa.addTransition("s1", "s4", 'a')); // Invalid state "s4"
+
+		return dfa;
+	}
+
+	@Test
+	public void test4_1() {
+		DFA dfa = dfa4();
+
+		System.out.println("dfa4 instantiation pass");
+	}
+
+	@Test
+	public void test4_2() {
+		assertFalse(dfa4().accepts(""));
+		System.out.println("dfa4 empty deny pass");
+	}
+
+	@Test
+	public void test4_3() {
+		assertFalse(dfa4().accepts("c"));
+		System.out.println("dfa4 wrong alphabet deny pass");
+	}
+
+	@Test
+	public void test4_4() {
+		assertFalse(dfa4().addTransition("s4", "s2", 'a'));
+		System.out.println("dfa4 non-existent state deny pass");
+	}
+
+	@Test
+	public void test4_5() {
+		assertTrue(dfa4().addTransition("s1", "s2", 'a'));
+		System.out.println("dfa4 duplicate transitions pass");
+	}
+
+
 	
 }
