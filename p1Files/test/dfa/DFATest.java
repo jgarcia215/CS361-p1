@@ -466,6 +466,25 @@ public void test3_6() {
 		System.out.println("dfa4 duplicate transitions pass");
 	}
 
+	@Test
+	public void test4_6() {
+		assertFalse(dfa4().setFinal("s4"));
+		System.out.println("dfa4 setting non-existent state as final deny pass");
+	}
 
+	@Test
+	public void test4_7() {
+		assertFalse(dfa4().accepts("aabab"));
+		assertFalse(dfa4().accepts("aaba"));
+		System.out.println("dfa4 long strings deny pass");
+	}
+
+	@Test
+	public void testAcceptanceForValidInputs() {
+		assertTrue(dfa4().accepts("ab"));
+		assertTrue(dfa4().accepts("aab"));
+		assertTrue(dfa4().accepts("abbbbb"));
+		System.out.println("dfa4 long strings pass");
+	}
 	
 }
