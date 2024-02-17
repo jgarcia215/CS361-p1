@@ -12,7 +12,7 @@ This is a program that allows you to create simple finite automata with its own 
 
 The hardest parts of this project in the DFA file were the toString and the SWAP method. Those two methods took a lot 
 of trial and error to start functioning correctly. There was random white spaces being added when we were trying to get 
-tests to pass, and it was doing things in the wrong order. We also ran into issues when using a HashMap and HashSet. it
+tests to pass, and it was doing things in the wrong order. We also ran into issues when using a HashMap and HashSet. It
 was ordering each element by their HashCode and not in the order it was inserted in.
     
 However, we were able to iron out the bugs and get all the tests to pass. This was a very fun and interesting project 
